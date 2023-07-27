@@ -6,16 +6,18 @@ import utils
 import json
 from flask_cors import CORS
 import re
+from bardapi import Bard
 
 app = Flask(__name__)
 CORS(app, origins='http://localhost:3000', allow_headers=["Content-Type"])
 
-def get_config_key():
+
+def get_bard_key():
     with open('../config.json') as f:
         config_data = json.load(f)
-    return config_data["api_key"]
+    return config_data["bard_api_key"]
 
-openai.api_key = get_config_key()
+bard = Bard(token=get_bard_key())
 
 def add_cors_headers(response):
     # Allow requests from the specific origin (your React app's origin)
@@ -24,31 +26,24 @@ def add_cors_headers(response):
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     return response
 
-@app.route('/api/chatbot', methods=['POST', 'OPTIONS'])
-def run_chatbot():
+
+@app.route('/api/bard', methods=['POST', 'OPTIONS'])
+def run_bard():
     if request.method == 'OPTIONS':
         response = jsonify({})
+    
     else:
         data = request.get_json()
         user_message = data.get('message')
 
-        # Run the Python script (example: my_script.py) with user_message as an argument
-        result = get_response(user_message)
+        result = bard.get_answer("You are taking a paper LBO model test, where accuracy is essential. Your only goal is to give a series of steps to calculate the MOIC (Multiple on invested capital) that is extremely accurate. For each step, explain your reasoning. Here are the steps: 1. Sources and uses: First, calculate the enterprise value. Second, calculate the debt and equity financing split. 2. Projecting leveered cash flow: Calculate EBITDA first. Derive net income. Project levered free cash flow. 3. Calculate MOIC and IRR. Here is the scenario: " + user_message)['content']
 
         response = jsonify({'message': result})
-
+    
     response = add_cors_headers(response)
     return response
 
 
-def get_response(code):
-    message = [{"role": "system", "content" : "You are an expert cybersecurity analyst. The user will input code and you will give possible vulnerabilities in the code.\nKnowledge cutoff: 2021-09-01\nCurrent date: 2023-03-02"},
-                {"role": "user", "content" : code}]
-    completion = openai.ChatCompletion.create(
-        model = "gpt-3.5-turbo",
-        messages = message,
-    )
-    return re.sub(r'(\d+\.)', r'\n\1', completion.choices[0].message["content"])
 
 
 if __name__ == '__main__':

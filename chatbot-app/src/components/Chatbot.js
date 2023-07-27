@@ -23,7 +23,7 @@ const Chatbot = () => {
 
     // Make the API call to the Flask server
     try {
-      const response = await axios.post('http://127.0.0.1:5000/api/chatbot', {
+      const response = await axios.post('http://127.0.0.1:5000/api/bard', {
         message: inputValue
       });
 

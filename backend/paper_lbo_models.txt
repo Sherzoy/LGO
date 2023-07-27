@@ -1,0 +1,82 @@
+URL: /?sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQOwgC
+Title: Google
+URL: /search?q=paper+LBO+model&ie=UTF-8&gbv=1&sei=n9vCZLW3CYXq1AHHq5DYBQ
+Title: here
+URL: /search?q=paper+LBO+model&ie=UTF-8&tbm=isch&source=lnms&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ_AUIBigB
+Title: Images
+URL: /search?q=paper+LBO+model&ie=UTF-8&tbm=vid&source=lnms&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ_AUIBygC
+Title: Videos
+URL: /search?q=paper+LBO+model&ie=UTF-8&tbm=shop&source=lnms&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ_AUICCgD
+Title: Shopping
+URL: https://maps.google.com/maps?q=paper+LBO+model&um=1&ie=UTF-8&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ_AUICSgE
+Title: Maps
+URL: /search?q=paper+LBO+model&ie=UTF-8&tbm=nws&source=lnms&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ_AUICigF
+Title: News
+URL: /search?q=paper+LBO+model&ie=UTF-8&tbm=bks&source=lnms&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ_AUICygG
+Title: Books
+URL: /advanced_search
+Title: Search tools
+URL: /search?q=paper+LBO+model&ie=UTF-8&source=lnt&tbs=qdr:h&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQpwUIDQ
+Title: Past hour
+URL: /search?q=paper+LBO+model&ie=UTF-8&source=lnt&tbs=qdr:d&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQpwUIDg
+Title: Past 24 hours
+URL: /search?q=paper+LBO+model&ie=UTF-8&source=lnt&tbs=qdr:w&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQpwUIDw
+Title: Past week
+URL: /search?q=paper+LBO+model&ie=UTF-8&source=lnt&tbs=qdr:m&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQpwUIEA
+Title: Past month
+URL: /search?q=paper+LBO+model&ie=UTF-8&source=lnt&tbs=qdr:y&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQpwUIEQ
+Title: Past year
+URL: /search?q=paper+LBO+model&ie=UTF-8&source=lnt&tbs=li:1&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQpwUIEw
+Title: Verbatim
+URL: /url?q=https://www.streetofwalls.com/finance-training-courses/private-equity-training/paper-lbo-model-example/&sa=U&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQFnoECAYQAg&usg=AOvVaw1MclDr45UpsYHg9alS1m5d
+Title: Paper LBO Model Example - Street Of Wallswww.streetofwalls.com › finance-training-courses › private-equity-training
+URL: /url?q=https://www.wallstreetprep.com/knowledge/paper-lbo/&sa=U&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQFnoECAgQAg&usg=AOvVaw2k7yXch6YP9qZgaHHbtg7m
+Title: The Paper LBO | Practice Tutorial Guide - Wall Street Prepwww.wallstreetprep.com › knowledge › paper-lbo
+URL: /url?q=https://breakingintowallstreet.com/kb/leveraged-buyouts-and-lbo-models/paper-lbo-example/&sa=U&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQFnoECAkQAg&usg=AOvVaw3QNGTcP_PPAz-i-4zaBFpv
+Title: Paper LBO Example: Full Tutorial for Private Equity Interviewsbreakingintowallstreet.com › leveraged-buyouts-and-lbo-models › paper-lb...
+URL: /url?q=https://growthequityinterviewguide.com/paper-lbo&sa=U&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQFnoECAAQAg&usg=AOvVaw2quN_cAzSBk7yGATNsTKVn
+Title: Paper LBO: A Step-By-Step Guide with Interview Examplesgrowthequityinterviewguide.com › Resources
+URL: /url?q=https://www.peakframeworks.com/post/paper-lbo&sa=U&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQFnoECAUQAg&usg=AOvVaw0pYI5i6JaahuV3vHG6ktQ5
+Title: The Paper LBO (Private Equity Interview Question) - Peak Frameworkswww.peakframeworks.com › post › paper-lbo
+URL: /url?q=https://www.10xebitda.com/private-equity-paper-lbo-example-standard/&sa=U&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQFnoECAIQAg&usg=AOvVaw1Tv9kZEsdOBPBE7X8tST_w
+Title: Paper LBO Example Walk-Through for PE Interview (Standard)www.10xebitda.com › Articles
+URL: /url?q=https://www.youtube.com/watch%3Fv%3DmIH-3bgocTQ&sa=U&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQtwJ6BAgKEAE&usg=AOvVaw3TUqY4fz3zCphFFRF5Zufo
+Title: How to do a Paper LBO (MUST Know for Private Equity) - YouTubewww.youtube.com › watch
+URL: /url?q=https://www.youtube.com/watch%3Fv%3DmIH-3bgocTQ&sa=U&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQuAJ6BAgKEAI&usg=AOvVaw333d2LRvZIsmXX_fxubBVv
+Title: 
+URL: /url?q=https://www.interviewprivateequity.com/paper-lbo-model-example-how-to-do-paper-lbo-in-5-minutes/&sa=U&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQFnoECAMQAg&usg=AOvVaw0_bMP01lmXb4Z2h758HhTt
+Title: Paper LBO Model Example: How to rip through a paper LBO in 5 ...www.interviewprivateequity.com › paper-lbo-model-example-how-to-do-p...
+URL: /url?q=https://www.wallstreetoasis.com/resources/financial-modeling/paper-lbo&sa=U&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQFnoECAQQAg&usg=AOvVaw3tFnISFkGZl0OGBPKJJZVn
+Title: Overview, Example, and Screenshots of a Paper LBO Modelwww.wallstreetoasis.com › Resources › Financial Modeling Guides
+URL: /url?q=https://www.financehomie.com/index.php/2022/11/30/paper-lbo-model-guide/&sa=U&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQFnoECAcQAg&usg=AOvVaw02X3kWeiM7sXo8sYNERBPM
+Title: Paper LBO Model Guide & Example - Finance Homiewww.financehomie.com › Latest Posts
+URL: /search?ie=UTF-8&q=Paper+lbo+model+template&sa=X&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ1QJ6BAgBEAI
+Title: Paper lbo model template
+URL: /search?ie=UTF-8&q=Paper+lbo+model+pdf&sa=X&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ1QJ6BAgBEAQ
+Title: Paper lbo model pdf
+URL: /search?ie=UTF-8&q=Paper+lbo+model+example&sa=X&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ1QJ6BAgBEAY
+Title: Paper lbo model example
+URL: /search?ie=UTF-8&q=Paper+lbo+model+calculator&sa=X&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ1QJ6BAgBEAg
+Title: Paper lbo model calculator
+URL: /search?ie=UTF-8&q=Paper+LBO+pdf&sa=X&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ1QJ6BAgBEAo
+Title: Paper LBO pdf
+URL: /search?ie=UTF-8&q=Paper+LBO+question&sa=X&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ1QJ6BAgBEAw
+Title: Paper LBO question
+URL: /search?ie=UTF-8&q=Simple+paper+LBO+example&sa=X&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ1QJ6BAgBEA4
+Title: Simple paper LBO example
+URL: /search?ie=UTF-8&q=Paper+LBO+steps&sa=X&ved=2ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ1QJ6BAgBEBA
+Title: Paper LBO steps
+URL: /search?q=paper+LBO+model&ie=UTF-8&ei=n9vCZLW3CYXq1AHHq5DYBQ&start=10&sa=N
+Title: Next >
+URL: /url?q=https://support.google.com/websearch%3Fp%3Dws_settings_location%26hl%3Den&sa=U&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQty4IcQ&usg=AOvVaw0-bx06U6EbuKGNcL9vzv60
+Title: Learn more
+URL: /url?q=https://accounts.google.com/ServiceLogin%3Fcontinue%3Dhttps://www.google.com/search%253Fq%253Dpaper%252BLBO%252Bmodel%26hl%3Den&sa=U&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQxs8CCHI&usg=AOvVaw2IYXcLQ4dgcFz8SQE1mvVU
+Title: Sign in
+URL: https://www.google.com/preferences?hl=en&fg=1&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQ5fUCCHM
+Title: Settings
+URL: https://policies.google.com/privacy?hl=en&fg=1
+Title: Privacy
+URL: https://policies.google.com/terms?hl=en&fg=1
+Title: Terms
+URL: /setprefs?hl=en&prev=https://www.google.com/search?q%3Dpaper%2BLBO%2Bmodel%26pccc%3D1&sig=0_ufryDBZEUPIuGEJH58jSLhDdKNo%3D&cs=2&sa=X&ved=0ahUKEwj1gqXd5K-AAxUFNTUKHccVBFsQjcAJCHQ
+Title: Dark theme: Off
