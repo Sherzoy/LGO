@@ -23,13 +23,12 @@ const Chatbot = () => {
 
     // Make the API call to the Flask server
     try {
-      const response = await axios.post('http://127.0.0.1:5000/api/bard', {
+      const response = await axios.post('http://127.0.0.1:5000/api/chatbot', {
         message: inputValue
       });
 
       // Format the bot's response before setting it in the state
-      const formattedResponse = formatBotResponse(response.data.message);
-      const botMessage = { text: formattedResponse, fromUser: false };
+      const botMessage = { text: response.data.message, fromUser: false };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
       console.error('Error sending message:', error);
