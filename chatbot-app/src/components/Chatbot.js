@@ -7,11 +7,17 @@ const Chatbot = () => {
   const [inputValue, setInputValue] = useState('');
 
   const formatBotResponse = (response) => {
-    // Split the response text by newlines
-    const lines = response.split('\n');
-    // Create a <div> element for each line
-    return lines.map((line, index) => <div key={index}>{line}</div>);
+    // Convert the dictionary object to an array of [key, value] pairs
+    const keyValuePairs = Object.entries(response);
+  
+    // Create a <div> element for each key-value pair
+    return keyValuePairs.map(([key, value], index) => (
+      <div key={index}>
+        {`| ${key} | ${value} |`}
+      </div>
+    ));
   };
+  
 
   const sendMessage = async () => {
     if (inputValue.trim() === '') return;
@@ -28,7 +34,8 @@ const Chatbot = () => {
       });
 
       // Format the bot's response before setting it in the state
-      const botMessage = { text: response.data.message, fromUser: false };
+      const formattedResponse = formatBotResponse(response.data.message);
+      const botMessage = { text: formattedResponse, fromUser: false };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
       console.error('Error sending message:', error);
