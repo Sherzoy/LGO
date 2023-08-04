@@ -13,6 +13,8 @@ import pandas as pd
 app = Flask(__name__)
 CORS(app, origins='http://localhost:3000', allow_headers=["Content-Type"])
 
+prompt = "1. Task: Create the following JSON file without mathematical processing of the data. 2. JSON Structure: The JSON file should have two sections: entry assumptions as 'entry_ass' and income assumptions as 'is_ass'. 3. Formulas: Refer to the following formulas for calculating values: - 'equity_ratio' = (1-debt_ratio) - 'debt_ratio' = initial debt divded by the purchase value 4. 'entry_ass': This section should contain the following fields: - 'entry_multiple': The transaction multiple for the entry assumption. - 'Rev_Y1': Revenue in Year 1, represented as '100 million' and converted to '100000000'. - 'EBITDA_Y1_Margin': EBITDA margin in Year 1 as a decimal (e.g., 0.15 for 15%). - 'debt_ratio': To be calculated as initial debt divided by the purchase value. - 'equity_ratio': To be calculated as (1 - debt_ratio). - 'years': The number of years for the investment horizon. 5. 'is_ass': This section should contain the following fields: - 'rev_growth': Revenue growth rate as a decimal (e.g., 0.05 for 5%). - 'int_rate': Interest rate for senior secured debt as a decimal (e.g., 0.04 for 4%). - 'tax_rate': Tax rate as a decimal (e.g., 0.3 for 30%). - 'capex_per_of_rev': Capital expenditures as a percentage of revenue as a decimal (e.g., 0.04 for 4%). - 'change_in_NWC': Annual change in net working capital, represented as '2 million' and converted to '2000000' - 'depreciation': Annual depreciation amount, represented as '3 million' and converted to '3000000'. 6. Representation: Represent all percentages as decimals and all numbers as their actual values (not in word form like 'million'). 7. Number Representation: Read the numbers as '100 million' and represent them as '100000000' in the JSON."
+
 
 def get_config_key():
     with open('../config.json') as f:
@@ -39,20 +41,25 @@ def run_chatbot():
         # Run the Python script (example: my_script.py) with user_message as an argument
         result = get_response(user_message)
         print(result)
-        json_res = json.loads(result)
-        print(json_res)
-        entry_ass = json_res['entry_ass']
-        is_ass = json_res['is_ass']
-
-        res = calculate_lbo(entry_ass, is_ass)
-        response = jsonify({'message': res})
+        response = jsonify({'message': result})
 
     response = add_cors_headers(response)
     return response
 
+@app.route('/api/submit', methods=['POST', 'OPTIONS'])
+def calculate():
+    if request.method == 'OPTIONS':
+        response = jsonify({})
+    else:
+        data = request.get_json()
+        result = calculate_lbo(data.get("entry_ass"), data.get("is_ass"))
+        response = jsonify({'message': result})
+
+    response = add_cors_headers(response)
+    return response
 
 def get_response(code):
-    message = [{"role": "system", "content" : "You are supposed to take prompts and digest it into a json file without doing any mathematical processing of the data. We needed entry assumptions in the format as follows entry_ass = { 'entry_multiple' , 'Rev_Y1': ,     'EBITDA_Y1_Margin': , 'debt_ratio':  , 'equity_ratio': , 'years':} and income assumptions in the format as follows is_ass={ 'rev_growth':  , 'int_rate':  , 'tax_rate': , 'capex_per_of_rev': , 'change_in_NWC': , 'depreciation':} put all percentages as decimals and all numbers as their actual values. Calculate debt ratio as initial debt divided by purchase value. Equity ratio is (1-debt ratio). The capex per of rev should be a decimal less than 1. The rev growth should be a decimal less than 1.\nKnowledge cutoff: 2021-09-01\nCurrent date: 2023-03-02"},
+    message = [{"role": "system", "content" : prompt + "\nKnowledge cutoff: 2021-09-01\nCurrent date: 2023-03-02"},
                 {"role": "user", "content" : code}]
     completion = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
@@ -63,15 +70,22 @@ def get_response(code):
 
 
 def calculate_lbo(entry_ass, is_ass):
-    if entry_ass['Rev_Y1'] / 1000000 == 0:
-        entry_ass['Rev_Y1'] *= 1000000
+    if entry_ass["Rev_Y1"] / 1000000 < 1:
+        entry_ass["Rev_Y1"] /= 1000000
+
+    if is_ass["change_in_NWC"] / 1000000 < 1:
+        is_ass["change_in_NWC"] /= 1000000
+
+    if is_ass["depreciation"] / 1000000 < 1:
+        is_ass["depreciation"] /= 1000000
+
+    for key in entry_ass:
+        print(key, type(entry_ass[key]))
+
+    for key in is_ass:
+        print(key, type(is_ass[key]))
+
     
-    if is_ass['change_in_NWC'] / 1000000 == 0:
-        is_ass['change_in_NWC'] *= 1000000
-
-    if is_ass['depreciation'] / 1000000 == 0:
-        is_ass['depreciation'] *= 1000000
-
     entry_ass['EBITDA_Y1']=entry_ass['Rev_Y1']*entry_ass['EBITDA_Y1_Margin']
     entry_ass["price_paid"]=entry_ass["entry_multiple"]*entry_ass["EBITDA_Y1"]  
 
@@ -124,6 +138,7 @@ def calculate_lbo(entry_ass, is_ass):
     exit_returns['ending_debt']= exit_returns['beginning_debt']-exit_returns['cumulative_FCF']  
     exit_returns['ending_equity']=exit_returns['exit_TEV']-exit_returns['ending_debt']
     exit_returns['MOIC']=exit_returns['ending_equity']/entry_ass['equity_portion']
+
 
     return exit_returns
 

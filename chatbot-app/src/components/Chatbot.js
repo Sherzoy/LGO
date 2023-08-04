@@ -5,6 +5,33 @@ import './Chatbot.css';
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [botResponse, setBotResponse] = useState({});
+
+  const handleValueChange = (section, key, newValue) => {
+    setBotResponse((prevResponse) => ({
+      ...prevResponse,
+      [section]: {
+        ...prevResponse[section],
+        [key]: newValue,
+      },
+    }));
+  };
+
+  const convertValuesToFloat = (obj) => {
+    const convertedObj = {};
+    
+    for (const key in obj) {
+      if (typeof obj[key] === 'object') {
+        convertedObj[key] = convertValuesToFloat(obj[key]);
+      } else if (!isNaN(parseFloat(obj[key]))) {
+        convertedObj[key] = parseFloat(obj[key]);
+      } else {
+        convertedObj[key] = obj[key];
+      }
+    }
+    
+    return convertedObj;
+  };
 
   const formatBotResponse = (response) => {
     // Convert the dictionary object to an array of [key, value] pairs
@@ -17,28 +44,37 @@ const Chatbot = () => {
       </div>
     ));
   };
-  
 
   const sendMessage = async () => {
     if (inputValue.trim() === '') return;
 
-    // Add the user message to the state
     const newMessage = { text: inputValue, fromUser: true };
     setMessages([...messages, newMessage]);
     setInputValue('');
 
-    // Make the API call to the Flask server
     try {
       const response = await axios.post('http://127.0.0.1:5000/api/chatbot', {
-        message: inputValue
+        message: inputValue,
       });
-
-      // Format the bot's response before setting it in the state
-      const formattedResponse = formatBotResponse(response.data.message);
-      const botMessage = { text: formattedResponse, fromUser: false };
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setBotResponse(JSON.parse(response.data.message));
     } catch (error) {
       console.error('Error sending message:', error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const convertedEntryAss = convertValuesToFloat(botResponse.entry_ass);
+      const convertedIsAss = convertValuesToFloat(botResponse.is_ass);
+      const response = await axios.post('http://127.0.0.1:5000/api/submit', {
+        entry_ass: convertedEntryAss,
+        is_ass: convertedIsAss,
+      });
+
+      const botMessage = { text: formatBotResponse(response.data.message), fromUser: false };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+    } catch (error) {
+      console.error('Error submitting data:', error);
     }
   };
 
@@ -61,9 +97,70 @@ const Chatbot = () => {
               sendMessage();
             }
           }}
-          placeholder="Paste code..."
+          placeholder="Type your message..."
         />
         <button onClick={sendMessage}>Send</button>
+      </div>
+      <div className="bot-response-table">
+        <h3>Entry Assumptions:</h3>
+        {Object.keys(botResponse.entry_ass || {}).length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(botResponse.entry_ass || {}).map(([key, value], index) => (
+                <tr key={index}>
+                  <td>{key}</td>
+                  <td>
+                    <input
+                      type="text"
+                      value={value}
+                      onChange={(e) => handleValueChange('entry_ass', key, e.target.value)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No entry assumptions from the bot yet.</p>
+        )}
+      </div>
+      <div className="bot-response-table">
+        <h3>Interest Assumptions:</h3>
+        {Object.keys(botResponse.is_ass || {}).length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(botResponse.is_ass || {}).map(([key, value], index) => (
+                <tr key={index}>
+                  <td>{key}</td>
+                  <td>
+                    <input
+                      type="text"
+                      value={value}
+                      onChange={(e) => handleValueChange('is_ass', key, e.target.value)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No interest assumptions from the bot yet.</p>
+        )}
+      </div>
+      <div className="submit-button">
+        <button onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   );
