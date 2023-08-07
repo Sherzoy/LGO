@@ -2,6 +2,21 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Chatbot.css';
 
+
+
+const exportToExcel = async (excelFileData) => {
+  try {
+    const response = await axios.post('http://127.0.0.1:5000/api/exportToExcel', {
+      excelFileData,
+    });
+
+    // Handle the server response, if needed
+    console.log('Excel file exported successfully:', response.data);
+  } catch (error) {
+    console.error('Error exporting Excel file:', error);
+  }
+};
+
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -159,10 +174,40 @@ const Chatbot = () => {
           <p>No interest assumptions from the bot yet.</p>
         )}
       </div>
+      <div className="bot-response-table">
+      <h3>Excel Table Output</h3>
+      {Object.keys(botResponse).length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(botResponse).map(([key, value], index) => (
+              <tr key={index}>
+                <td>{key}</td>
+                <td>{value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No data available for Excel output yet.</p>
+      )}
+    </div>
       <div className="submit-button">
         <button onClick={handleSubmit}>Submit</button>
       </div>
+
+      <div className="export-button">
+      <button onClick={exportToExcel}>Export to Excel</button>
     </div>
+
+    </div>
+    
+    
   );
 };
 

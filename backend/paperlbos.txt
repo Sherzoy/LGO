@@ -1,0 +1,109 @@
+https://multipleexpansion.com/2020/07/24/paper-lbo-tutorial/
+Transaction Assumptions
+9.0x transaction multiple
+Cash-free, debt-free transaction
+3.0x senior secured debt (4% interest rate, repayable immediately)
+3.0x junior debt (8% interest rate, no early repayment)
+No transaction expenses
+LTM Financials
+100mm Revenue
+15mm EBITDA
+Projections
+5% sales growth Y1 - Y3, followed by 3% sales growth
+Constant EBITDA margin
+4mm CapEx Y1 - Y3, then 3mm CapEx per year
+3mm depreciation & amortization (D&A) each year
+2mm increase in net working capital (NWC) each year
+30% tax rate
+Exit Assumptions
+Exit after 5 years at 9.5x LTM EBITDA
+Cash-free, debt-free transaction
+No transaction expenses
+
+https://growthequityinterviewguide.com/paper-lbo
+Year 0 revenue: $100 
+Revenue growth: $10 every year
+Year 0 EBITDA margin: 40% in Year 0
+EBITDA margins: remain constant every year
+Entry timing: at end of Year 0
+Entry multiple: 10x LTM EBITDA
+Pro forma debt: 6.0x LTM EBITDA with blended average interest rate of 5% 
+Year 0 D&A: $5, flat across projection
+CapEx = D&A throughout projection
+Working capital: Cash investment of $10 every year
+Tax rate: 40%
+Entry timing: at end of Year 5
+Assume entry-exit multiple parity
+
+https://www.streetofwalls.com/finance-training-courses/private-equity-training/paper-lbo-model-example/
+XYZ Private Equity Partners purchases ABC Target Company for 5.0x Forward 12 months (FTM) EBITDA at the end of Year 0.
+The debt-to-equity ratio for the LBO acquisition will be 60:40.
+Assume the weighted average interest rate on debt to be 10%.
+ABC expects to reach $100 million in sales revenue with an EBITDA margin of 40% in Year 1.
+Revenue is expected to increase by 10% year-over-year (y-o-y).
+EBITDA margins are expected to remain flat during the term of the investment.
+Capital expenditures are expected to equal 15% of sales each year.
+Operating working capital is expected to increase by $5 million each year.
+Depreciation is expected to equal $20 million each year.
+Assume a constant tax rate of 40%.
+XYZ exits the target investment after Year 5 at the same EBITDA multiple used at entry (5.0x FTM EBITDA).
+Assume all debt pay-down occurs at the moment of sale at the end of Year 5 (this eliminates the iterative/circular dependency between debt pay-down/cash balances and interest expense in a computer-based LBO model).
+
+https://www.10xebitda.com/private-equity-paper-lbo-example-standard/
+The company has a Year 0 revenue of $500, growing at a rate of 10% every year. EBITDA margin is 20% in Year 0 and remains constant throughout the holding period. We’re buying it at the end of Year 0 at 10x LTM EBITDA multiple. We’re financing it with 4x of bank debt @ 5% and an additional 2x of bond @ 10%. As a reminder, if you haven’t read our step-by-step guide, you should assume bullet payment at the end and confirm it with the interviewer. Assume $20 of D&A in Year 0, growing by $5 every year. CapEx = D&A. Fixed working capital changes of $10 every year. 40% tax rate. Exit at the end of Year 5 with the same multiple as at entry.
+
+https://www.peakframeworks.com/post/paper-lbo
+Assume that we are a private equity firm purchasing "Company Alpha" at the end of 2021
+
+Purchase multiple is 10x LTM EBITDA
+
+$200mm of revenues in 2021, which is expected to grow at $25mm annually through the forecast
+
+EBITDA margin of 50%, flat throughout forecast
+
+D&A and Capex are both 10% of revenues, flat throughout forecast
+
+No change in net working capital
+
+Tax rate of 50%
+
+Initial leverage of 5x LTM EBITDA – assume all debt is paid down upon exit
+
+Interest rate of 10%
+
+Assume exit after 3 years of projections at a 10x LTM EBITDA multiple
+
+https://breakingintowallstreet.com/kb/leveraged-buyouts-and-lbo-models/paper-lbo-example/
+Valen Capital is considering a leveraged buyout of Ravello Refineries, a leading producer of oil
+and industrial chemicals.
+The company is planning to increase its CapEx significantly over the next several years to
+support higher growth, even if its margins fall.
+Valen plans to purchase the company for 10x LTM EBITDA, and it will use a Term Loan for 4x
+EBITDA and Senior Notes for 2x EBITDA, with Investor Equity funding the remainder.
+The Term Loan interest rate is 5%, and 2% of the initial principal must be repaid each year.
+Additionally, 100% of the company’s Free Cash Flow will be used to make optional repayments
+of the Term Loan.
+The Senior Note interest rate is 10%, and no principal repayments are allowed.
+Ravello’s LTM EBITDA is $250 million, and it spends 60% of its Revenue on COGS and 15% on
+SG&A. D&A is not included in these COGS and SG&A figures and is a separate expense.
+The company expects to grow its Revenue at 5.0%, 7.5%, 10.0%, 10.0%, and 10.0% over the
+next 5 years, and SG&A as a % of Revenue will increase by 1% per year.
+Ravello also plans to spend 8% of its Revenue on Capital Expenditures (CapEx) and 4% on the
+Purchases of Intangible Assets. The Change in Working Capital will be a source of funds at 2% of
+Revenue per year.
+The company expects Depreciation & Amortization to represent 5% of its annual Revenue, and
+its effective tax rate is 20%.
+Valen Capital expects that it will be able to sell Ravello for 12x EBITDA at the end of the 5-year
+holding period because of the higher growth rate.
+If Valen Capital is targeting a 20% IRR over 5 years, would you recommend this deal? Estimate
+the money-on-money multiple and IRR and show the FCF and Debt paydown calculations to
+support your answer.
+You MAY not use Excel or a calculator for this exercise. Complete all the calculations using
+pencil and paper and round the numbers to simplify the calculations.
+
+https://www.coursesidekick.com/finance/69004 no solutions
+
+https://www.10xebitda.com/private-equity-paper-lbo/
+1. The company has a Year 0 revenue of $500, growing at a rate of 10% every year. EBITDA margin is 20% in Year 0 and remains constant throughout the holding period. We’re buying it at the end of Year 0 at 10x LTM EBITDA multiple. We’re financing it with 4x of bank debt @ 5% and an additional 2x of bond @ 10%. Assume $20 of D&A in Year 0, growing by $5 every year. CapEx = D&A. Fixed working capital changes of $10 every year. 40% tax rate. Exit at the end of Year 5 with the same multiple as at entry.
+
+2. (Advanced) The company is a retailer with 20 stores and has a Year 0 revenue of $5,000. Every year, the retailer opens 5 new stores. Opening each new store will require $20 in growth capital expenditures but will add $150 in sales in the first year of operation. Each new stores built after Year 0 grow revenue by $10 every year after the first year. The existing 20 stores’ cumulative revenue grows by a total of $250 every year. All new and existing stores has an EBITDA margin of 20% and need maintenance capex of $3 / store every year. Each store has a D&A of $5

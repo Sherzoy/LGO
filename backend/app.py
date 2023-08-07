@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import subprocess
 import openai
 import sys
@@ -13,8 +13,28 @@ import pandas as pd
 app = Flask(__name__)
 CORS(app, origins='http://localhost:3000', allow_headers=["Content-Type"])
 
-prompt = "1. Task: Create the following JSON file without mathematical processing of the data. 2. JSON Structure: The JSON file should have two sections: entry assumptions as 'entry_ass' and income assumptions as 'is_ass'. 3. Formulas: Refer to the following formulas for calculating values: - 'equity_ratio' = (1-debt_ratio) - 'debt_ratio' = initial debt divded by the purchase value 4. 'entry_ass': This section should contain the following fields: - 'entry_multiple': The transaction multiple for the entry assumption. - 'Rev_Y1': Revenue in Year 1, represented as '100 million' and converted to '100000000'. - 'EBITDA_Y1_Margin': EBITDA margin in Year 1 as a decimal (e.g., 0.15 for 15%). - 'debt_ratio': To be calculated as initial debt divided by the purchase value. - 'equity_ratio': To be calculated as (1 - debt_ratio). - 'years': The number of years for the investment horizon. 5. 'is_ass': This section should contain the following fields: - 'rev_growth': Revenue growth rate as a decimal (e.g., 0.05 for 5%). - 'int_rate': Interest rate for senior secured debt as a decimal (e.g., 0.04 for 4%). - 'tax_rate': Tax rate as a decimal (e.g., 0.3 for 30%). - 'capex_per_of_rev': Capital expenditures as a percentage of revenue as a decimal (e.g., 0.04 for 4%). - 'change_in_NWC': Annual change in net working capital, represented as '2 million' and converted to '2000000' - 'depreciation': Annual depreciation amount, represented as '3 million' and converted to '3000000'. 6. Representation: Represent all percentages as decimals and all numbers as their actual values (not in word form like 'million'). 7. Number Representation: Read the numbers as '100 million' and represent them as '100000000' in the JSON."
+#read the text in prompt.txt as the string prompt
+with open('prompt.txt', 'r') as file:
+    prompt = file.read()
 
+#read the text in prompt.txt as the string prompt
+with open('excelprompt.txt', 'r') as file:
+    excelprompt = file.read()
+
+#prompt = "1. Task: Create the following JSON file without mathematical processing of the data. 2. JSON Structure: The JSON file should have two sections: entry assumptions as 'entry_ass' and income assumptions as 'is_ass'. 3. Formulas: Refer to the following formulas for calculating values: - 'equity_ratio' = (1-debt_ratio) - 'debt_ratio' = initial debt divded by the purchase value 4. 'entry_ass': This section should contain the following fields: - 'entry_multiple': The transaction multiple for the entry assumption. - 'Rev_Y1': Revenue in Year 1, represented as '100 million' and converted to '100000000'. - 'EBITDA_Y1_Margin': EBITDA margin in Year 1 as a decimal (e.g., 0.15 for 15%). - 'debt_ratio': To be calculated as initial debt divided by the purchase value. - 'equity_ratio': To be calculated as (1 - debt_ratio). - 'years': The number of years for the investment horizon. 5. 'is_ass': This section should contain the following fields: - 'rev_growth': Revenue growth rate as a decimal (e.g., 0.05 for 5%). - 'int_rate': Interest rate for senior secured debt as a decimal (e.g., 0.04 for 4%). - 'tax_rate': Tax rate as a decimal (e.g., 0.3 for 30%). - 'capex_per_of_rev': Capital expenditures as a percentage of revenue as a decimal (e.g., 0.04 for 4%). - 'change_in_NWC': Annual change in net working capital, represented as '2 million' and converted to '2000000' - 'depreciation': Annual depreciation amount, represented as '3 million' and converted to '3000000'. 6. Representation: Represent all percentages as decimals and all numbers as their actual values (not in word form like 'million'). 7. Number Representation: Read the numbers as '100 million' and represent them as '100000000' in the JSON."
+
+def read_text_to_excel(text):
+    output_file = 'out.xlsx'
+    # Split the text into rows based on newline characters
+    rows = text.strip().split('\n')
+
+    data = [row.split('|') for row in rows]
+
+    # Create a DataFrame from the data
+    df = pd.DataFrame(data)
+
+    # Save the DataFrame to an Excel file
+    df.to_excel(output_file, index=False)
 
 def get_config_key():
     with open('../config.json') as f:
@@ -58,6 +78,23 @@ def calculate():
     response = add_cors_headers(response)
     return response
 
+@app.route('/api/exportToExcel', methods=['POST'])
+def export_to_excel():
+    if request.method == 'POST':
+        data = request.get_json()
+        jsondata = data.get('excelFileData')
+
+        # Process jsondata and convert it to an Excel file (DataFrame)
+        exceltext = makeExcel(jsondata)
+
+        # Save the DataFrame to an Excel file (BytesIO buffer)
+        buffer = io.BytesIO()
+        df.to_excel(buffer, index=False, sheet_name='Sheet1')
+        buffer.seek(0)
+
+        # Return the Excel file as a downloadable response
+        return send_file(buffer, as_attachment=True, attachment_filename='data.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
 def get_response(code):
     message = [{"role": "system", "content" : prompt + "\nKnowledge cutoff: 2021-09-01\nCurrent date: 2023-03-02"},
                 {"role": "user", "content" : code}]
@@ -67,7 +104,15 @@ def get_response(code):
     )
     return completion.choices[0].message["content"]
 
+def makeExcel(jsondata):
+    message = [{"role": "system", "content" : excelprompt + "\nKnowledge cutoff: 2021-09-01\nCurrent date: 2023-03-02"},
+                {"role": "user", "content" :  json.dumps(jsondata)}]
+    completion = openai.ChatCompletion.create(
+        model = "gpt-3.5-turbo",
+        messages = message,
+    )
 
+    return completion.choices[0].message["content"]
 
 def calculate_lbo(entry_ass, is_ass):
     if entry_ass["Rev_Y1"] / 1000000 < 1:

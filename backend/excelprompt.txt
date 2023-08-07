@@ -1,0 +1,83 @@
+1. You will be given a json for a paper LBO parameters which the user will give along with the python code below that solves it. It is your job to output only a string in the format below to be read into excel table that contains the same formulas as the python code and the same values as the json text. Use the format below for outputting the excel string
+
+2. Sample excel string: """
+| Name       | Age | Occupation    | Salary   | Bonus   | Total Income  |
+|------------|-----|---------------|----------|---------|---------------|
+| John       | 30  | Engineer      | 70000    | 5000    | =C2+D2        |
+| Emily      | 28  | Teacher       | 50000    | 3000    | =C3+D3        |
+| Michael    | 35  | Doctor        | 90000    | 8000    | =C4+D4        |
+| Sarah      | 32  | Lawyer        | 80000    | 6000    | =C5+D5        |
+| Robert     | 29  | Software Eng  | 75000    | 5500    | =C6+D6        |
+"""
+
+3. Python code: if entry_ass["Rev_Y1"] / 1000000 < 1:
+        entry_ass["Rev_Y1"] /= 1000000
+
+    if is_ass["change_in_NWC"] / 1000000 < 1:
+        is_ass["change_in_NWC"] /= 1000000
+
+    if is_ass["depreciation"] / 1000000 < 1:
+        is_ass["depreciation"] /= 1000000
+
+    for key in entry_ass:
+        print(key, type(entry_ass[key]))
+
+    for key in is_ass:
+        print(key, type(is_ass[key]))
+
+    
+    entry_ass['EBITDA_Y1']=entry_ass['Rev_Y1']*entry_ass['EBITDA_Y1_Margin']
+    entry_ass["price_paid"]=entry_ass["entry_multiple"]*entry_ass["EBITDA_Y1"]  
+
+    entry_ass["debt_portion"]=entry_ass['debt_ratio']*entry_ass['price_paid']
+    entry_ass['equity_portion']=entry_ass['equity_ratio']*entry_ass['price_paid']
+
+    years=[i for i in range(1, entry_ass['years']+2)]
+    rows=["Rev","EBITDA","less: D&A","EBIT", "less: Interest","EBT", "less: Taxes","Earnings"]
+    lbo_is = pd.DataFrame(data=None,index=rows,columns=years)
+
+    lbo_is[1].loc['Rev']=entry_ass['Rev_Y1']
+    i = 2
+    while i <= len(lbo_is.loc['Rev']):
+        lbo_is[i].loc['Rev']=lbo_is[(i-1)].loc['Rev']*(1+is_ass['rev_growth'])
+        i+=1
+    
+    lbo_is.loc['EBITDA']=lbo_is.loc['Rev']*entry_ass['EBITDA_Y1_Margin']
+
+    lbo_is.loc['less: D&A']= -is_ass['depreciation']
+
+    lbo_is.loc['EBIT']=lbo_is.loc['EBITDA']+lbo_is.loc['less: D&A']
+
+    lbo_is.loc['less: Interest']=-is_ass['int_rate']*entry_ass['debt_portion']
+
+    lbo_is.loc['EBT']=lbo_is.loc['EBIT']+lbo_is.loc['less: Interest']
+
+    lbo_is.loc['less: Taxes']=lbo_is.loc['EBT']*-is_ass['tax_rate']
+
+    lbo_is.loc['Earnings']=lbo_is.loc['EBT']+lbo_is.loc['less: Taxes']
+
+    lbo_fcf=pd.DataFrame(data=None, index=["Earnings", "plus: D&A", "less: capex", "less: NWC", "FCF"], columns=years)
+
+    lbo_fcf.loc['Earnings']=lbo_is.loc['Earnings']
+    lbo_fcf.loc['plus: D&A']=-lbo_is.loc['less: D&A']
+    lbo_fcf.loc['less: capex']=lbo_is.loc['Rev']*-is_ass["capex_per_of_rev"]
+    lbo_fcf.loc['less: NWC']=-is_ass['change_in_NWC']
+    lbo_fcf.loc['FCF']=lbo_fcf.loc[['Earnings','plus: D&A','less: capex', 'less: NWC']].sum()
+
+    year_list = years[:-1]
+    cumulative_fcf=lbo_fcf[[1,2,3,4,5]].loc['FCF'].sum()
+
+    exit_returns={
+    "exit_EBITDA":lbo_is[entry_ass['years']+1].loc['EBITDA'],
+    'exit_multiple':entry_ass['entry_multiple'],
+    'beginning_debt':entry_ass['debt_portion'],
+    'cumulative_FCF':cumulative_fcf,
+    }
+
+    exit_returns['exit_TEV']= exit_returns['exit_EBITDA']*exit_returns['exit_multiple']
+    exit_returns['ending_debt']= exit_returns['beginning_debt']-exit_returns['cumulative_FCF']  
+    exit_returns['ending_equity']=exit_returns['exit_TEV']-exit_returns['ending_debt']
+    exit_returns['MOIC']=exit_returns['ending_equity']/entry_ass['equity_portion']
+
+
+    return exit_returns

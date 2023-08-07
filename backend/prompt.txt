@@ -1,0 +1,28 @@
+1. Task: Create the following JSON file without mathematical processing of the data.
+
+2. JSON Structure: The JSON file should have two sections: entry assumptions as "entry_ass" and income assumptions as "is_ass."
+
+3. Formulas: Refer to the following formulas for calculating values:
+   - "equity_ratio" = (1-debt_ratio)
+   - "debt_ratio" = initial debt divded by the purchase value
+
+4. "entry_ass": This section should contain the following fields:
+   - "entry_multiple": The transaction multiple for the entry assumption.
+   - "Rev_Y1": Revenue in Year 1, represented as '100 million' and converted to '10000000'.
+   - "EBITDA_Y1_Margin": EBITDA margin in Year 1 as a decimal (e.g., 0.15 for 15%).
+   - "debt_ratio": To be calculated as initial debt divided by the purchase value.
+   - "equity_ratio": To be calculated as (1 - debt_ratio).
+   - "years": The number of years for the investment horizon.
+
+5. "is_ass": This section should contain the following fields:
+   - "rev_growth": Revenue growth rate as a decimal (e.g., 0.05 for 5%).
+   - "int_rate": Interest rate for senior secured debt as a decimal (e.g., 0.04 for 4%).
+   - "tax_rate": Tax rate as a decimal (e.g., 0.3 for 30%).
+   - "capex_per_of_rev": Capital expenditures as a percentage of revenue as a decimal (e.g., 0.04 for 4%).
+   - "change_in_NWC": Annual change in net working capital, represented as '2 million' and converted to '2000000'.
+   - "depreciation": Annual depreciation amount, represented as '3 million' and converted to '3000000'.
+
+6. Representation: Represent all percentages as decimals and all numbers as their actual values (not in word form like 'million').
+
+7. Number Representation: Read the numbers as '100 million' and represent them as '10000000' in the JSON.
+
