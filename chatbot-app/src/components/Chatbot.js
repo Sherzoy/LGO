@@ -4,23 +4,11 @@ import './Chatbot.css';
 
 
 
-const exportToExcel = async (excelFileData) => {
-  try {
-    const response = await axios.post('http://127.0.0.1:5000/api/exportToExcel', {
-      excelFileData,
-    });
-
-    // Handle the server response, if needed
-    console.log('Excel file exported successfully:', response.data);
-  } catch (error) {
-    console.error('Error exporting Excel file:', error);
-  }
-};
-
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [botResponse, setBotResponse] = useState({});
+  const [excelResponse, setExcelResponse] = useState('');
 
   const handleValueChange = (section, key, newValue) => {
     setBotResponse((prevResponse) => ({
@@ -32,6 +20,34 @@ const Chatbot = () => {
     }));
   };
 
+  const handleExportToExcelClick = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:5000/api/exportToExcel', {
+        responseType: 'blob',
+        headers: {
+          Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        }, // Set the response type to blob (binary data)
+      });
+
+      console.log('Response Content-Type:', response.headers['content-type']);
+      console.log('Response Size:', response.data.size);
+  
+      // Create a blob URL for the Excel file
+      const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const blobUrl = URL.createObjectURL(blob);
+  
+      //Create a download link and trigger a click event to download the file
+      const downloadLink = document.createElement('a');
+      downloadLink.href = blobUrl;
+      downloadLink.download = 'generated_excel.xlsx';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    } catch (error) {
+      console.error('Error exporting Excel file:', error);
+    }
+  };
+  
   const convertValuesToFloat = (obj) => {
     const convertedObj = {};
     
@@ -72,6 +88,7 @@ const Chatbot = () => {
         message: inputValue,
       });
       setBotResponse(JSON.parse(response.data.message));
+      setExcelResponse(JSON.parse(response.data.excel));
     } catch (error) {
       console.error('Error sending message:', error);
     }
@@ -176,33 +193,14 @@ const Chatbot = () => {
       </div>
       <div className="bot-response-table">
       <h3>Excel Table Output</h3>
-      {Object.keys(botResponse).length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Key</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(botResponse).map(([key, value], index) => (
-              <tr key={index}>
-                <td>{key}</td>
-                <td>{value}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>No data available for Excel output yet.</p>
-      )}
+      <span>{excelResponse}</span>
     </div>
       <div className="submit-button">
         <button onClick={handleSubmit}>Submit</button>
       </div>
 
       <div className="export-button">
-      <button onClick={exportToExcel}>Export to Excel</button>
+      <button onClick={handleExportToExcelClick}>Export to Excel</button>
     </div>
 
     </div>
