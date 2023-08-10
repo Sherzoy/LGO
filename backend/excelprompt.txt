@@ -1,13 +1,50 @@
-1. You will be given a json for a paper LBO parameters which the user will give along with the python code below that solves it. It is your job to output only a string in the format below to be read into excel table that contains the same formulas as the python code and the same values as the json text. Use the format below for outputting the excel string
+1. You will be given a json for a paper LBO parameters which the user will give along with the python code below that solves it. It is your job to output only a string in the format below to be read into excel table that contains the same formulas as the python code and the same values as the json text. Use the format below for outputting the excel string. You will first read the data from the json into excel. Then you will convert the calculations in the python code to excel calculations and plug in the data from the JSON into the python code.
 
 2. Sample excel string: """
-| Name       | Age | Occupation    | Salary   | Bonus   | Total Income  |
-|------------|-----|---------------|----------|---------|---------------|
-| John       | 30  | Engineer      | 70000    | 5000    | =C2+D2        |
-| Emily      | 28  | Teacher       | 50000    | 3000    | =C3+D3        |
-| Michael    | 35  | Doctor        | 90000    | 8000    | =C4+D4        |
-| Sarah      | 32  | Lawyer        | 80000    | 6000    | =C5+D5        |
-| Robert     | 29  | Software Eng  | 75000    | 5500    | =C6+D6        |
+|                  |            | Year 1     | Year 2     | Year 3     | Year 4     | Year 5     |
+| Input Parameters |            |            |            |            |            |            |
+| Entry Multiple   |            | 12         |            |            |            |            |
+| Rev Y1           |            | 10,000,000 |            |            |            |            |
+| EBITDA Y1 Margin |            | 0.15       |            |            |            |            |
+| Debt Ratio       |            | 0.25       |            |            |            |            |
+| Equity Ratio     |            | 0.75       |            |            |            |            |
+| Years            |            | 5          |            |            |            |            |
+| IS Assumptions   |            |            |            |            |            |            |
+| Revenue Growth   |            | 0.05       | 0.05       | 0.05       | 0.05       | 0.05       |
+| Interest Rate    |            | 0.04       | 0.04       | 0.04       | 0.04       | 0.04       |
+| Tax Rate         |            | 0.3        | 0.3        | 0.3        | 0.3        | 0.3        |
+| Capex % of Rev   |            | 0.04       | 0.04       | 0.04       | 0.04       | 0.04       |
+| Change in NWC    |            | 2,000,000  | 2,000,000  | 2,000,000  | 2,000,000  | 2,000,000  |
+| Depreciation     |            | 3,000,000  |            |            |            |            |
+| Calculations     |            |            |            |            |            |            |
+| EBITDA Y1        |            | =B4*B5      |            |            |            |            |
+| Price Paid       |            | =B4*B12     |            |            |            |            |
+| Debt Portion     |            | =B9*B14     |            |            |            |            |
+| Equity Portion   |            | =B10*B14    |            |            |            |            |
+| IS Statement     |            |            |            |            |            |            |
+| Rev              |            | =B4         | =C4*(1+$B$14)| =D4*(1+$B$14)| =E4*(1+$B$14)| =F4*(1+$B$14)|
+| EBITDA           |            | =B8         | =C8         | =D8         | =E8         | =F8         |
+| less: D&A        |            | =B15        | =C15        | =D15        | =E15        | =F15        |
+| EBIT             |            | =B18        | =C18        | =D18        | =E18        | =F18        |
+| less: Interest   |            | =-B21*$B$7  | =-C21*$B$7  | =-D21*$B$7  | =-E21*$B$7  | =-F21*$B$7  |
+| EBT              |            | =B24        | =C24        | =D24        | =E24        | =F24        |
+| less: Taxes      |            | =-B27*$B$8  | =-C27*$B$8  | =-D27*$B$8  | =-E27*$B$8  | =-F27*$B$8  |
+| Earnings         |            | =B30        | =C30        | =D30        | =E30        | =F30        |
+| FCF Statement    |            |            |            |            |            |            |
+| Earnings         |            | =B30        | =C30        | =D30        | =E30        | =F30        |
+| plus: D&A        |            | =B15        | =C15        | =D15        | =E15        | =F15        |
+| less: Capex      |            | =-B37*$B$9  | =-C37*$B$9  | =-D37*$B$9  | =-E37*$B$9  | =-F37*$B$9  |
+| less: NWC        |            | =-B38       | =-C38       | =-D38       | =-E38       | =-F38       |
+| FCF              |            | =B41+B42+B43+B44| =C41+C42+C43+C44| =D41+D42+D43+D44| =E41+E42+E43+E44| =F41+F42+F43+F44|
+| Exit Returns     |            |            |            |            |            |            |
+| Exit EBITDA      |            | =F8         |            |            |            |            |
+| Exit Multiple    |            | =B4         |            |            |            |            |
+| Beginning Debt   |            | =B14        |            |            |            |            |
+| Cumulative FCF   |            | =SUM(B41:F41)|            |            |            |            |
+| Exit TEV         |            | =B54*B55    |            |            |            |            |
+| Ending Debt      |            | =B14-B41    |            |            |            |            |
+| Ending Equity    |            | =B56-B57    |            |            |            |            |
+| MOIC             |            | =B57/B10    |            |            |            |            |
 """
 
 3. Python code: if entry_ass["Rev_Y1"] / 1000000 < 1:
@@ -81,3 +118,4 @@
 
 
     return exit_returns
+
