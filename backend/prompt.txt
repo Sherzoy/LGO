@@ -8,7 +8,7 @@
 
 4. "entry_ass": This section should contain the following fields:
    - "entry_multiple": The transaction multiple for the entry assumption.
-   - "Rev_Y1": Revenue in Year 1, represented as '100 million' and converted to '10000000'.
+   - "Rev_Y1": Revenue in Year 1, represented as '100 million' and converted to '100000000'.
    - "EBITDA_Y1_Margin": EBITDA margin in Year 1 as a decimal (e.g., 0.15 for 15%).
    - "debt_ratio": To be calculated as initial debt divided by the purchase value.
    - "equity_ratio": To be calculated as (1 - debt_ratio).

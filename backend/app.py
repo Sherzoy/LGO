@@ -17,7 +17,6 @@ from io import StringIO
 app = Flask(__name__)
 CORS(app, origins='http://localhost:3000', allow_headers=["Content-Type"])
 
-csv_string = ""
 
 #read the text in prompt.txt as the string prompt
 with open('prompt.txt', 'r') as file:
@@ -59,7 +58,6 @@ def add_cors_headers(response):
 
 @app.route('/api/chatbot', methods=['POST', 'OPTIONS'])
 def run_chatbot():
-    global csv_string
     if request.method == 'OPTIONS':
         response = jsonify({})
     else:
@@ -68,8 +66,8 @@ def run_chatbot():
 
         # Run the Python script (example: my_script.py) with user_message as an argument
         result = get_response(user_message)
-        csv_string = makeExcel(result)
-        response = jsonify({'message': result, 'excel': csv_string})
+        excel_string = makeExcel(result)
+        response = jsonify({'message': result, 'excel': excel_string})
 
     response = add_cors_headers(response)
     return response
@@ -86,15 +84,23 @@ def calculate():
     response = add_cors_headers(response)
     return response
 
-@app.route('/api/exportToExcel', methods=['GET'])
+@app.route('/api/exportToExcel', methods=['POST', 'OPTIONS'])
 def export_to_excel():
-    if request.method == 'GET':
+    if request.method == 'OPTIONS':
+        response = jsonify({})
+    else:
 
         
-        # Process jsondata and convert it to an Excel file (DataFrame)
-        #exceltext = makeExcel(current_json)
-        #df = read_text_to_excel(exceltext)
-        # Save the DataFrame to an Excel file (BytesIO buffer)
+        data = request.get_json()
+
+        new_data = {
+        "entry_ass": data.get("entry_ass"),
+        "is_ass": data.get("is_ass"),
+        }
+
+        print(new_data)
+        csv_string = makeExcel(json.dumps(new_data))
+        print(csv_string)
 
         excel_file_path = os.path.join(tempfile.gettempdir(), 'generated_excel.xlsx')
         to_excel(csv_string, excel_file_path)
@@ -104,9 +110,10 @@ def export_to_excel():
         # Return the Excel file as a downloadable response
         response = make_response(send_file(excel_file_path, as_attachment=True, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))
         response.headers['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        response = add_cors_headers(response)
-        print(response)
-        return response
+
+    response = add_cors_headers(response)
+        
+    return response
 
 def get_response(code):
     message = [{"role": "system", "content" : prompt + "\nKnowledge cutoff: 2021-09-01\nCurrent date: 2023-03-02"},

@@ -22,7 +22,11 @@ const Chatbot = () => {
 
   const handleExportToExcelClick = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/api/exportToExcel', {
+      const convertedEntryAss = convertValuesToFloat(botResponse.entry_ass);
+      const convertedIsAss = convertValuesToFloat(botResponse.is_ass);
+      const response = await axios.post('http://127.0.0.1:5000/api/exportToExcel', {
+        entry_ass: convertedEntryAss,
+        is_ass: convertedIsAss,
         responseType: 'blob',
         headers: {
           Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
