@@ -24,5 +24,5 @@
 
 6. Representation: Represent all percentages as decimals and all numbers as their actual values (not in word form like 'million').
 
-7. Number Representation: Read the numbers as '100 million' and represent them as '10000000' in the JSON.
+7. Number Representation: Read the numbers as '100 million' and represent them as '100000000' in the JSON.
 

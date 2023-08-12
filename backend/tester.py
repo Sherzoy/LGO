@@ -19,6 +19,14 @@ def makeExcel(jsondata):
     csv_rows.append("years" + "," + str(entry_ass.get("years", "")) + "," * years)
     csv_rows.append("rev_growth" + "," + str(is_ass.get("rev_growth", "")) + "," * years)
     csv_rows.append("int_rate" + "," + str(is_ass.get("int_rate", "")) + "," * years)
+    csv_rows.append("tax_rate" + "," + str(is_ass.get("tax_rate", "")) + "," * years)
+    csv_rows.append("capex_per_of_rev" + "," + str(is_ass.get("capex_per_of_rev", "")) + "," * years)
+    csv_rows.append("change_in_NWC" + "," + str(is_ass.get("change_in_NWC", "")) + "," * years)
+    csv_rows.append("depreciation" + "," + str(is_ass.get("depreciation", "")) + "," * years)
+    
+    csv_rows.append(","*(years+1))
+    csv_rows.append(","*(years+1))
+    
     excel_rows = [
         "EBITDA Y1,=$B$3*$B$2" + "," * years,
         "price_paid,=$B$1*$B$15" + "," * years,
@@ -44,7 +52,7 @@ def makeExcel(jsondata):
     ebitda_row = "EBITDA," + ",".join("={}22*$B$3".format(chr(66 + i)) for i in range(years+1))
     csv_rows.append(ebitda_row)
 
-    less_da_row = "less: D&A," + ",=-$B$12" * years
+    less_da_row = "less: D&A" + ",=-$B$12" * (years+1)
     ebit_row = "EBIT," + ",".join("={}23+{}24".format(chr(66 + i), chr(66 + i)) for i in range(years+1))
     less_interest_row = "less: Interest" + ",=-$B$8*$B$17" * (years+1)
     ebt_row = "EBT," + ",".join("={}25+{}26".format(chr(66 + i), chr(66 + i)) for i in range(years+1))
@@ -95,10 +103,10 @@ def makeExcel(jsondata):
 
 def csv_to_excel(csv_string, file_path):
     # Read the CSV string into a DataFrame
-    csv_data = pd.read_csv(StringIO(csv_string))
+    csv_data = pd.read_csv(StringIO(csv_string), header = None)
 
     # Write the DataFrame to an Excel file
-    csv_data.to_excel(file_path, index=False)
+    csv_data.to_excel(file_path, index=False, header=False)
 
 
 data = {
@@ -108,7 +116,7 @@ data = {
         "EBITDA_Y1_Margin": 0.4,
         "debt_ratio": 0.6,
         "equity_ratio": 0.4,
-        "years": 5
+        "years": 4
     },
     "is_ass": {
         "rev_growth": 0.1,
