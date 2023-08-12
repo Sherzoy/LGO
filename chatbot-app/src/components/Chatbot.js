@@ -29,9 +29,7 @@ const Chatbot = () => {
         }, // Set the response type to blob (binary data)
       });
 
-      console.log('Response Content-Type:', response.headers['content-type']);
-      console.log('Response Size:', response.data.size);
-  
+
       // Create a blob URL for the Excel file
       const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const blobUrl = URL.createObjectURL(blob);

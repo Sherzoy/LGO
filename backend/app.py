@@ -69,9 +69,7 @@ def run_chatbot():
         # Run the Python script (example: my_script.py) with user_message as an argument
         result = get_response(user_message)
         csv_string = makeExcel(result)
-        print(result)
-        print(excel_string)
-        response = jsonify({'message': result, 'excel': excel_string})
+        response = jsonify({'message': result, 'excel': csv_string})
 
     response = add_cors_headers(response)
     return response
@@ -99,7 +97,7 @@ def export_to_excel():
         # Save the DataFrame to an Excel file (BytesIO buffer)
 
         excel_file_path = os.path.join(tempfile.gettempdir(), 'generated_excel.xlsx')
-        to_excel(excel_file_path, )
+        to_excel(csv_string, excel_file_path)
         #df.to_excel(excel_file_path, index=False)
     
 
@@ -223,7 +221,7 @@ def to_excel(csv_string, file_path):
     csv_data = pd.read_csv(StringIO(csv_string), header = None)
 
     # Write the DataFrame to an Excel file
-    csv_data.to_excel(file_path, index=False, header=False)
+    csv_data.to_excel(file_path, index=False, header=False, engine='openpyxl')
 
 def calculate_lbo(entry_ass, is_ass):
     if entry_ass["Rev_Y1"] / 1000000 < 1:
