@@ -17,6 +17,7 @@ from io import StringIO
 app = Flask(__name__)
 CORS(app, origins='http://localhost:3000', allow_headers=["Content-Type"])
 
+current_json = {}
 
 #read the text in prompt.txt as the string prompt
 with open('prompt.txt', 'r') as file:
@@ -58,6 +59,7 @@ def add_cors_headers(response):
 
 @app.route('/api/chatbot', methods=['POST', 'OPTIONS'])
 def run_chatbot():
+    global current_json
     if request.method == 'OPTIONS':
         response = jsonify({})
     else:
@@ -66,8 +68,8 @@ def run_chatbot():
 
         # Run the Python script (example: my_script.py) with user_message as an argument
         result = get_response(user_message)
-        excel_string = makeExcel(result)
-        response = jsonify({'message': result, 'excel': excel_string})
+        current_json = json.loads(result)
+        response = jsonify({'message': result, 'excel': 'hello'})
 
     response = add_cors_headers(response)
     return response
@@ -77,43 +79,44 @@ def calculate():
     if request.method == 'OPTIONS':
         response = jsonify({})
     else:
+        global current_json
         data = request.get_json()
+        entry_ass_new = data.get("entry_ass")
+        is_ass_new = data.get("is_ass")
+        print(current_json)
+        for key in entry_ass_new:
+            if entry_ass_new[key] != current_json["entry_ass"][key]:
+                current_json["entry_ass"][key] = entry_ass_new[key]
+        for key in is_ass_new:
+            if is_ass_new[key] != current_json["is_ass"][key]:
+                current_json["is_ass"][key] = is_ass_new[key]
+        print(current_json)
         result = calculate_lbo(data.get("entry_ass"), data.get("is_ass"))
         response = jsonify({'message': result})
 
     response = add_cors_headers(response)
     return response
 
-@app.route('/api/exportToExcel', methods=['POST', 'OPTIONS'])
+@app.route('/api/exportToExcel', methods=['GET'])
 def export_to_excel():
-    if request.method == 'OPTIONS':
-        response = jsonify({})
-    else:
+    if request.method == 'GET':
 
         
-        data = request.get_json()
-
-        new_data = {
-        "entry_ass": data.get("entry_ass"),
-        "is_ass": data.get("is_ass"),
-        }
-
-        print(new_data)
-        csv_string = makeExcel(json.dumps(new_data))
-        print(csv_string)
-
+        # Process jsondata and convert it to an Excel file (DataFrame)
+        #exceltext = makeExcel(current_json)
+        #df = read_text_to_excel(exceltext)
+        # Save the DataFrame to an Excel file (BytesIO buffer)
+        csv_string = makeExcel()
         excel_file_path = os.path.join(tempfile.gettempdir(), 'generated_excel.xlsx')
-        to_excel(csv_string, excel_file_path)
+        to_excel(csv_string,excel_file_path)
         #df.to_excel(excel_file_path, index=False)
     
 
         # Return the Excel file as a downloadable response
         response = make_response(send_file(excel_file_path, as_attachment=True, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))
         response.headers['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-
-    response = add_cors_headers(response)
-        
-    return response
+        response = add_cors_headers(response)
+        return response
 
 def get_response(code):
     message = [{"role": "system", "content" : prompt + "\nKnowledge cutoff: 2021-09-01\nCurrent date: 2023-03-02"},
@@ -124,11 +127,10 @@ def get_response(code):
     )
     return completion.choices[0].message["content"]
 
-def makeExcel(jsondata):
-    data = json.loads(jsondata)
+def makeExcel():
 
-    entry_ass = data["entry_ass"]
-    is_ass = data["is_ass"]
+    entry_ass = current_json["entry_ass"]
+    is_ass = current_json["is_ass"]
     years = entry_ass.get("years", "")
     years = int(years)
 
@@ -240,13 +242,6 @@ def calculate_lbo(entry_ass, is_ass):
     if is_ass["depreciation"] / 1000000 < 1:
         is_ass["depreciation"] /= 1000000
 
-    for key in entry_ass:
-        print(key, type(entry_ass[key]))
-
-    for key in is_ass:
-        print(key, type(is_ass[key]))
-
-    
     entry_ass['EBITDA_Y1']=entry_ass['Rev_Y1']*entry_ass['EBITDA_Y1_Margin']
     entry_ass["price_paid"]=entry_ass["entry_multiple"]*entry_ass["EBITDA_Y1"]  
 

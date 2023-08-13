@@ -9,6 +9,7 @@ const Chatbot = () => {
   const [inputValue, setInputValue] = useState('');
   const [botResponse, setBotResponse] = useState({});
   const [excelResponse, setExcelResponse] = useState('');
+  const [subClicked, setSubClicked] = useState(false);
 
   const handleValueChange = (section, key, newValue) => {
     setBotResponse((prevResponse) => ({
@@ -22,11 +23,7 @@ const Chatbot = () => {
 
   const handleExportToExcelClick = async () => {
     try {
-      const convertedEntryAss = convertValuesToFloat(botResponse.entry_ass);
-      const convertedIsAss = convertValuesToFloat(botResponse.is_ass);
-      const response = await axios.post('http://127.0.0.1:5000/api/exportToExcel', {
-        entry_ass: convertedEntryAss,
-        is_ass: convertedIsAss,
+      const response = await axios.get('http://127.0.0.1:5000/api/exportToExcel', {
         responseType: 'blob',
         headers: {
           Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -107,6 +104,7 @@ const Chatbot = () => {
 
       const botMessage = { text: formatBotResponse(response.data.message), fromUser: false };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setSubClicked(true);
     } catch (error) {
       console.error('Error submitting data:', error);
     }
@@ -201,9 +199,11 @@ const Chatbot = () => {
         <button onClick={handleSubmit}>Submit</button>
       </div>
 
-      <div className="export-button">
-      <button onClick={handleExportToExcelClick}>Export to Excel</button>
-    </div>
+      {subClicked && (
+        <div className="export-button">
+          <button onClick={handleExportToExcelClick}>Export to Excel</button>
+        </div>
+      )}
 
     </div>
     
