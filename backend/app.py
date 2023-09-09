@@ -233,6 +233,10 @@ def to_excel(csv_string, file_path):
     csv_data.to_excel(file_path, index=False, header=False, engine='openpyxl')
 
 def calculate_lbo(entry_ass, is_ass):
+    depreciation_ratio = is_ass['depreciation'] < 1
+    rev_ratio = is_ass['rev_growth'] < 1
+    capex_ratio = is_ass['capex_per_of_rev'] < 1
+    
     if entry_ass["Rev_Y1"] / 1000000 < 1:
         entry_ass["Rev_Y1"] /= 1000000
 
@@ -241,6 +245,7 @@ def calculate_lbo(entry_ass, is_ass):
 
     if is_ass["depreciation"] / 1000000 < 1:
         is_ass["depreciation"] /= 1000000
+
 
     entry_ass['EBITDA_Y1']=entry_ass['Rev_Y1']*entry_ass['EBITDA_Y1_Margin']
     entry_ass["price_paid"]=entry_ass["entry_multiple"]*entry_ass["EBITDA_Y1"]  
@@ -255,12 +260,12 @@ def calculate_lbo(entry_ass, is_ass):
     lbo_is[1].loc['Rev']=entry_ass['Rev_Y1']
     i = 2
     while i <= len(lbo_is.loc['Rev']):
-        lbo_is[i].loc['Rev']=lbo_is[(i-1)].loc['Rev']*(1+is_ass['rev_growth'])
+        lbo_is[i].loc['Rev']=lbo_is[(i-1)].loc['Rev']*(1+is_ass['rev_growth']) if rev_ratio else lbo_is[(i-1)].loc['Rev'] + is_ass['rev_growth']
         i+=1
     
     lbo_is.loc['EBITDA']=lbo_is.loc['Rev']*entry_ass['EBITDA_Y1_Margin']
 
-    lbo_is.loc['less: D&A']= -is_ass['depreciation']
+    lbo_is.loc['less: D&A']= -is_ass['depreciation'] if not depreciation_ratio else -is_ass['depreciation'] * lbo_is.loc['Rev']
 
     lbo_is.loc['EBIT']=lbo_is.loc['EBITDA']+lbo_is.loc['less: D&A']
 
@@ -276,7 +281,7 @@ def calculate_lbo(entry_ass, is_ass):
 
     lbo_fcf.loc['Earnings']=lbo_is.loc['Earnings']
     lbo_fcf.loc['plus: D&A']=-lbo_is.loc['less: D&A']
-    lbo_fcf.loc['less: capex']=lbo_is.loc['Rev']*-is_ass["capex_per_of_rev"]
+    lbo_fcf.loc['less: capex']=lbo_is.loc['Rev']*-is_ass["capex_per_of_rev"] if capex_ratio else lbo_is.loc['Rev']-is_ass["capex_per_of_rev"]
     lbo_fcf.loc['less: NWC']=-is_ass['change_in_NWC']
     lbo_fcf.loc['FCF']=lbo_fcf.loc[['Earnings','plus: D&A','less: capex', 'less: NWC']].sum()
 
